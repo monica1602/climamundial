@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clima Mundial - Previsão do Tempo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">🌍</span>
+                    <h1>Clima Mundial</h1>
+                </div>
+                <p class="subtitle">Previsão do tempo para qualquer cidade do mundo</p>
+            </div>
+        </header>
+
+        <!-- Search Section -->
+        <section class="search-section">
+            <div class="search-container">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        placeholder="Buscar cidade... (ex: São Paulo, Tokyo, New York)"
+                        autocomplete="off"
+                    >
+                    <button id="clearBtn" class="clear-btn hidden" aria-label="Limpar busca">✕</button>
+                </div>
+                <div id="searchResults" class="search-results hidden"></div>
+            </div>
+        </section>
+
+        <!-- Loading -->
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Carregando dados climáticos...</p>
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="error-message hidden"></div>
+
+        <!-- Weather Content -->
+        <main id="weatherContent" class="weather-content hidden">
+            <!-- City Header -->
+            <div class="city-header">
+                <h2 id="cityName"></h2>
+                <p id="cityDetails"></p>
+                <p id="localTime" class="local-time"></p>
+            </div>
+
+            <!-- Current Weather -->
+            <section class="current-weather">
+                <div class="current-main">
+                    <div class="current-temp-section">
+                        <span id="weatherIcon" class="weather-icon-large"></span>
+                        <div class="temp-info">
+                            <span id="currentTemp" class="current-temp"></span>
+                            <span id="weatherDescription" class="weather-desc"></span>
+                        </div>
+                    </div>
+                    <div class="current-details">
+                        <div class="detail-item">
+                            <span class="detail-icon">🌡️</span>
+                            <div>
+                                <span class="detail-label">Sensação Térmica</span>
+                                <span id="feelsLike" class="detail-value"></span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">💧</span>
+                            <div>
+                                <span class="detail-label">Umidade</span>
+                                <span id="humidity" class="detail-value"></span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">💨</span>
+                            <div>
+                                <span class="detail-label">Vento</span>
+                                <span id="wind" class="detail-value"></span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">🌬️</span>
+                            <div>
+                                <span class="detail-label">Rajadas</span>
+                                <span id="gusts" class="detail-value"></span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">🌧️</span>
+                            <div>
+                                <span class="detail-label">Precipitação</span>
+                                <span id="precipitation" class="detail-value"></span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">☁️</span>
+                            <div>
+                                <span class="detail-label">Nuvens</span>
+                                <span id="clouds" class="detail-value"></span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">📊</span>
+                            <div>
+                                <span class="detail-label">Pressão</span>
+                                <span id="pressure" class="detail-value"></span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-icon">❄️</span>
+                            <div>
+                                <span class="detail-label">Neve</span>
+                                <span id="snow" class="detail-value"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Air Quality -->
+            <section class="air-quality-section">
+                <h3>🌬️ Qualidade do Ar</h3>
+                <div id="airQualityContent" class="air-quality-grid">
+                    <p class="loading-text">Carregando...</p>
+                </div>
+            </section>
+
+            <!-- Hourly Forecast -->
+            <section class="hourly-section">
+                <h3>⏰ Previsão por Hora (próximas 24h)</h3>
+                <div id="hourlyForecast" class="hourly-container"></div>
+            </section>
+
+            <!-- Daily Forecast -->
+            <section class="daily-section">
+                <h3>📅 Previsão para 7 Dias</h3>
+                <div id="dailyForecast" class="daily-container"></div>
+            </section>
+
+            <!-- Additional Info -->
+            <section class="additional-info">
+                <h3>☀️ Informações do Dia</h3>
+                <div class="sun-info">
+                    <div class="sun-item">
+                        <span class="sun-icon">🌅</span>
+                        <span class="sun-label">Nascer do Sol</span>
+                        <span id="sunrise" class="sun-value"></span>
+                    </div>
+                    <div class="sun-item">
+                        <span class="sun-icon">🌇</span>
+                        <span class="sun-label">Pôr do Sol</span>
+                        <span id="sunset" class="sun-value"></span>
+                    </div>
+                    <div class="sun-item">
+                        <span class="sun-icon">☀️</span>
+                        <span class="sun-label">Índice UV Máx.</span>
+                        <span id="uvIndex" class="sun-value"></span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Dados fornecidos por <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> | Clima Mundial &copy; 2026</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
